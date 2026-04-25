@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -11,8 +10,9 @@ import ContactPage from "./pages/Contact/ContactPage";
 
 function App() {
   return (
-    <Router>
+    <>
       <Navbar />
+
       <div className="cursor"></div>
       <div className="cursor-follower"></div>
 
@@ -24,7 +24,7 @@ function App() {
       </Routes>
 
       <Footer />
-    </Router>
+    </>
   );
 }
 
