@@ -21,3 +21,6 @@ Create `.env` from `.env.example`.
 
 - `GET /health`
 - `POST /inquiries`
+- `POST /api/inquiries`
+- `POST /contact`
+- `POST /api/contact`

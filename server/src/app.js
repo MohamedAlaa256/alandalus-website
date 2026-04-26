@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express from 'express';
-import inquiriesRouter from './routes/inquiries.js';
+import inquiriesRouter, { createContactInquiry } from './routes/inquiries.js';
 
 const app = express();
 
@@ -27,6 +27,8 @@ app.get('/health', (req, res) => {
 
 app.use('/api/inquiries', inquiriesRouter);
 app.use('/inquiries', inquiriesRouter);
+app.post('/api/contact', createContactInquiry);
+app.post('/contact', createContactInquiry);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
