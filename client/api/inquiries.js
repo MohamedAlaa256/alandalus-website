@@ -73,7 +73,14 @@ module.exports = async function handler(req, res) {
       return res.status(error.statusCode || 500).json({ error: error.publicMessage });
     }
 
-    if (error.name === 'MongoServerError' || error.name === 'MongoNetworkError' || error.message?.includes('querySrv')) {
+    const isMongoConnectionError = [
+      'MongoServerError',
+      'MongoNetworkError',
+      'MongoServerSelectionError',
+      'MongoParseError'
+    ].includes(error.name);
+
+    if (isMongoConnectionError || error.message?.includes('querySrv')) {
       return res.status(500).json({
         error: 'Database connection failed. Check your MongoDB Atlas URI, database user password, and Network Access settings.'
       });
