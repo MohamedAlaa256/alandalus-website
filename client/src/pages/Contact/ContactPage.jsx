@@ -16,7 +16,7 @@ const ContactPage = () => {
     setStatus('loading');
     setErrorMsg('');
     try {
-      await api.post('/inquiries', form);
+      await api.post('/api/inquiries', form);
       setStatus('success');
       setForm({ name: '', email: '', phone: '', message: '', type: 'general', projectId: '' });
     } catch (err) {
