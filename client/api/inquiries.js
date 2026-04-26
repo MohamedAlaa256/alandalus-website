@@ -8,7 +8,10 @@ async function getClient() {
   }
 
   if (!process.env.MONGODB_URI) {
-    throw new Error('MONGODB_URI is required');
+    const error = new Error('MongoDB URI is not configured in Vercel.');
+    error.statusCode = 500;
+    error.publicMessage = 'MongoDB URI is not configured in Vercel.';
+    throw error;
   }
 
   cachedClient = new MongoClient(process.env.MONGODB_URI);
@@ -65,6 +68,17 @@ module.exports = async function handler(req, res) {
     });
   } catch (error) {
     console.error(error);
+
+    if (error.publicMessage) {
+      return res.status(error.statusCode || 500).json({ error: error.publicMessage });
+    }
+
+    if (error.name === 'MongoServerError' || error.name === 'MongoNetworkError' || error.message?.includes('querySrv')) {
+      return res.status(500).json({
+        error: 'Database connection failed. Check your MongoDB Atlas URI, database user password, and Network Access settings.'
+      });
+    }
+
     return res.status(500).json({ error: 'Server error. Please try again later.' });
   }
 };
